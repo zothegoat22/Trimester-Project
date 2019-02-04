@@ -51,22 +51,22 @@ function stayStill(x) {
 }
 
 function movePlayer() {
-	var originalX=player['x'];
-    var originalY=player['y'];
+	var originalX=playerSpawn['x'];
+    var originalY=playerSpawn['y'];
 	if(rightMovement==1){
-		player['x']+=speedVar;
+		playerSpawn['x']+=speedVar;
 	}
     if(leftMovement==1){
-    	player['x']-=speedVar;
+    	playerSpawn['x']-=speedVar;
     }
     collide(originalX,originalY)
-    var originalX=player['x']
-    var originalY=player['y']
+    var originalX=playerSpawn['x']
+    var originalY=playerSpawn['y']
     if(upMovement==1){
-    	player['y']-=speedVar;
+    	playerSpawn['y']-=speedVar;
     }
     if(downMovement==1){
-    	player['y']+=speedVar;
+    	playerSpawn['y']+=speedVar;
     }
     collide(originalX,originalY);
 }
@@ -82,9 +82,9 @@ function draw() {
 	context.fillStyle = "white";
 	context.fillRect(0, 0, canvas.width, canvas.height);
     context.fillStyle = "lightgreen";
-	context.fillRect(player['x'], player['y'], sizeOfPlayer*0.65, sizeOfPlayer*0.65);
+	context.fillRect(playerSpawn['x'], playerSpawn['y'], sizeOfPlayer*0.65, sizeOfPlayer*0.65);
     context.strokeStyle="black";
-	context.strokeRect(player['x'], player['y'], sizeOfPlayer*0.65, sizeOfPlayer*0.65);
+	context.strokeRect(playerSpawn['x'], playerSpawn['y'], sizeOfPlayer*0.65, sizeOfPlayer*0.65);
 }
 
 
