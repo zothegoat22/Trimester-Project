@@ -7,18 +7,18 @@
 var canvas = document.getElementById("Canvas");
 var context = canvas.getContext("2d");
 
-var sizeOfPlayer=23;
 var level=1;
 var spawnPos = [[0,0],[sizeOfPlayer*2,sizeOfPlayer*2],[sizeOfPlayer*2,sizeOfPlayer*4],[sizeOfPlayer*1.5,sizeOfPlayer*2.5],[0,0]]
 var playerSpawn = {'x':spawnPos[level][0],'y':spawnPos[level][1]}
+
+document.addEventListener("keyup", stayStill, false);
+document.addEventListener("keydown", movement, false);
+
 var rightMovement=0;
 var leftMovement=0;
 var upMovement=0;
 var downMovement=0;
 var speedVar=2.4;
-
-document.addEventListener("keyup", stayStill, false);
-document.addEventListener("keydown", movement, false);
 
 function movement(x) {
     if(x.keyCode == 68) {
@@ -71,13 +71,14 @@ function movePlayer() {
     collide(originalX,originalY);
 }
 
-function collide() {
+function collideFunction(x,y) {
 }
-function collideEnemy() {
+function collideWithEnemy(enemy) {
 }
 function addblock() {
 }
 
+var sizeOfPlayer=23;
 function draw() {
 	context.fillStyle = "white";
 	context.fillRect(0, 0, canvas.width, canvas.height);
