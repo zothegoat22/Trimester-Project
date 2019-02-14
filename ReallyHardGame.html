@@ -1,97 +1,96 @@
 <!DOCTYPE html>
-<html>
-
-<canvas id="Canvas" width="800" height="600"></canvas>
-
-<script>
-var canvas = document.getElementById("Canvas");
-var context = canvas.getContext("2d");
-
-var level=1;
-var spawnPos = [[0,0],[sizeOfPlayer*2,sizeOfPlayer*2],[sizeOfPlayer*2,sizeOfPlayer*4],[sizeOfPlayer*1.5,sizeOfPlayer*2.5],[0,0]]
-var playerSpawn = {'x':spawnPos[level][0],'y':spawnPos[level][1]}
-
-document.addEventListener("keyup", stayStill, false);
-document.addEventListener("keydown", movement, false);
-
-var rightMovement=0;
-var leftMovement=0;
-var upMovement=0;
-var downMovement=0;
-var speedVar=2.4;
-
-function movement(x) {
-    if(x.keyCode == 68) {
-        rightMovement=1;
+    <html>
+    
+    <canvas id="Canvas" width="800" height="600"></canvas>
+    
+    <script>
+    var canvas = document.getElementById("Canvas");
+    var context = canvas.getContext("2d");
+    
+    var sizeOfPlayer=23;
+    var level=1;
+    var spawnPos = [[0,0],[sizeOfPlayer*2,sizeOfPlayer*2],[sizeOfPlayer*2,sizeOfPlayer*4],[sizeOfPlayer*1.5,sizeOfPlayer*2.5],[0,0]]
+    var player = {'x':spawnPos[level][0],'y':spawnPos[level][1]}
+    var rightMovement=0;
+    var leftMovement=0;
+    var upMovement=0;
+    var downMovement=0;
+    var speedVar=2.4;
+    
+    document.addEventListener("keyup", stayStill, false);
+    document.addEventListener("keydown", movement, false);
+    
+    function movement(x) {
+        if(x.keyCode == 68) {
+            rightMovement=1;
+        }
+        else if(x.keyCode == 65) {
+            leftMovement=1;
+        } 
+        else if(x.keyCode == 87) {
+            upMovement=1;
+        } 
+        else if(x.keyCode == 83) {
+            downMovement=1;
+        }
     }
-    else if(x.keyCode == 65) {
-        leftMovement=1;
-    } 
-    else if(x.keyCode == 87) {
-        upMovement=1;
-    } 
-    else if(x.keyCode == 83) {
-        downMovement=1;
+    
+    function stayStill(x) {
+        if(x.keyCode == 68) {
+            rightMovement=0;
+        } 
+        else if(x.keyCode == 65) {
+            leftMovement=0;
+        } 
+        else if(x.keyCode == 87) {
+            upMovement=0;
+        } 
+        else if(x.keyCode == 83) {
+            downMovement=0;
+        }
     }
-}
-
-function stayStill(x) {
-	if(x.keyCode == 68) {
-        rightMovement=0;
-    } 
-    else if(x.keyCode == 65) {
-        leftMovement=0;
-    } 
-    else if(x.keyCode == 87) {
-        upMovement=0;
-    } 
-    else if(x.keyCode == 83) {
-        downMovement=0;
+    
+    function movePlayer() {
+        var originalX=player['x'];
+        var originalY=player['y'];
+        if(rightMovement==1){
+            player['x']+=speedVar;
+        }
+        if(leftMovement==1){
+            player['x']-=speedVar;
+        }
+        collide(originalX,originalY)
+        var originalX=player['x']
+        var originalY=player['y']
+        if(upMovement==1){
+            player['y']-=speedVar;
+        }
+        if(downMovement==1){
+            player['y']+=speedVar;
+        }
+        collide(originalX,originalY);
     }
-}
-
-function movePlayer() {
-	var originalX=playerSpawn['x'];
-    var originalY=playerSpawn['y'];
-	if(rightMovement==1){
-		playerSpawn['x']+=speedVar;
-	}
-    if(leftMovement==1){
-    	playerSpawn['x']-=speedVar;
+    
+    function collide() {
     }
-    collide(originalX,originalY)
-    var originalX=playerSpawn['x']
-    var originalY=playerSpawn['y']
-    if(upMovement==1){
-    	playerSpawn['y']-=speedVar;
+    function collideEnemy() {
     }
-    if(downMovement==1){
-    	playerSpawn['y']+=speedVar;
+    function addblock() {
     }
-    collide(originalX,originalY);
-}
-
-function collideFunction(x,y) {
-}
-function collideWithEnemy(enemy) {
-}
-function addblock() {
-}
-
-var sizeOfPlayer=23;
-function draw() {
-	context.fillStyle = "white";
-	context.fillRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = "lightgreen";
-	context.fillRect(playerSpawn['x'], playerSpawn['y'], sizeOfPlayer*0.65, sizeOfPlayer*0.65);
-    context.strokeStyle="black";
-	context.strokeRect(playerSpawn['x'], playerSpawn['y'], sizeOfPlayer*0.65, sizeOfPlayer*0.65);
-}
-
-
-function doStuff() {
-	draw();
-    movePlayer();
-}
-setInterval(doStuff,20);
-</script>
+    
+    function draw() {
+        context.fillStyle = "white";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = "lightgreen";
+        context.fillRect(player['x'], player['y'], sizeOfPlayer*0.65, sizeOfPlayer*0.65);
+        context.strokeStyle="black";
+        context.strokeRect(player['x'], player['y'], sizeOfPlayer*0.65, sizeOfPlayer*0.65);
+    }
+    
+    
+    function doStuff() {
+        draw();
+        movePlayer();
+    }
+    setInterval(doStuff,20);
+    </script> 
