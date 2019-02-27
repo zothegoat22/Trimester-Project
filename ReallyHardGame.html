@@ -1,150 +1,273 @@
 <p id='level'></p>
+
 <canvas id="Canvas" width="600" height="400"></canvas>
+
 <script>
-var c = document.getElementById("Canvas");
-var ctx = c.getContext("2d");
-var size=25
-var level=1
-var rightMovement=0
-var leftMovement=0
-var upMovement=0
-var downMovement=0
-var speed=1.2
-document.addEventListener("keydown", movement, false);
-document.addEventListener("keyup", stayStill, false);
 
-function movement(x) {
-    if(x.keyCode == 68) {
-        rightMovement=1
-    }
-    else if(x.keyCode == 65) {
-        leftMovement=1
-    } else if(x.keyCode == 87) {
-        upMovement=1
-    } else if(x.keyCode == 83) {
-        downMovement=1
-    }
-}
+    var c = document.getElementById("Canvas");
+    var ctx = c.getContext("2d");
+    var size=25;
+    var level=1;
+    var rightMovement=0;
+    var leftMovement=0;
+    var upMovement=0;
+    var downMovement=0;
+    var speed=1.2;
+    document.addEventListener("keydown", movement, false);
+    document.addEventListener("keyup", stayStill, false);
 
-function stayStill(x) {
-    if(x.keyCode == 68) {
-        rightMovement=0
-    } else if(x.keyCode == 65) {
-        leftMovement=0
-    } else if(x.keyCode == 87) {
-        upMovement=0
-    } else if(x.keyCode == 83) {
-        downMovement=0
-    }
-}
-
-function movePlayer() {
-    var oldx=player['x']
-    var oldy=player['y']
-    if (rightMovement==1) {player['x']+=speed}
-    if (leftMovement==1) {player['x']-=speed}
-    collide(oldx,oldy)
-    var oldx=player['x']
-    var oldy=player['y']
-    if (upMovement==1) {player['y']-=speed}
-    if (downMovement==1) {player['y']+=speed}
-    collide(oldx,oldy)
-}
-
-function collide(x,y) {
-    var i=0
-    var player_rect={x:player['x'],y:player['y'],width:size*0.6,height:size*0.6}
-    while (blocks[level].length>i) {
-        var block_rect={x:blocks[level][i]['x']*size,y:blocks[level][i]['y']*size,width:size,height:size}
-            if (colliding(player_rect,block_rect) && blocks[level][i]['type']===1) {
-            player['x']=x
-            player['y']=y
+    function movement(x) {
+        if(x.keyCode == 68) {
+            rightMovement=1;
         }
-        if (colliding(player_rect,block_rect) && blocks[level][i]['type']===3 && numcoins>=coinsneeded[level]) {
-            level+=1
-            numcoins=0
-            player['x']=spawnpoints[level][0]
-            player['y']=spawnpoints[level][1]
+        else if(x.keyCode == 65) {
+            leftMovement=1;
+        } 
+        else if(x.keyCode == 87) {
+            upMovement=1;
+        } 
+        else if(x.keyCode == 83) {
+            downMovement=1;
         }
-        i++
     }
-   
-}
 
-function colliding(rect1,rect2) {
-if (rect1.x < rect2.x + rect2.width &&
-   rect1.x + rect1.width > rect2.x &&
-   rect1.y < rect2.y + rect2.height &&
-   rect1.y + rect1.height > rect2.y) {return true}
-   return false
-}
-
-function draw() {
-    ctx.fillStyle = "white"
-    ctx.fillRect(0, 0, c.width, c.height)
-    var i=0
-    while (blocks[level].length>i) {
-        var color='pink'
-        if (blocks[level][i]['type']===0) {
-            if (blocks[level][i]['x']%2===0 && blocks[level][i]['y']%2===0) {color='white'}
-            if (blocks[level][i]['x']%2===0 && blocks[level][i]['y']%2===1) {color='lightgrey'}
-            if (blocks[level][i]['x']%2===1 && blocks[level][i]['y']%2===0) {color='lightgrey'}
-            if (blocks[level][i]['x']%2===1 && blocks[level][i]['y']%2===1) {color='white'}
+    function stayStill(x) {
+        if(x.keyCode == 68) {
+            rightMovement=0;
+        } 
+        else if(x.keyCode == 65) {
+            leftMovement=0;
+        } 
+        else if(x.keyCode == 87) {
+            upMovement=0;
+        } 
+        else if(x.keyCode == 83) {
+            downMovement=0;
         }
-        if (blocks[level][i]['type']===1) {color='grey'}
-        if (blocks[level][i]['type']===2) {color='yellow'}
-        if (blocks[level][i]['type']===3) {color='lightgreen'}
-        ctx.fillStyle = color+""
-        if (!(blocks[level][i]['type']===4)) {ctx.fillRect(blocks[level][i]['x']*size, blocks[level][i]['y']*size, size, size)}
-        i++
     }
-    ctx.fillStyle = "purple"
-    ctx.fillRect(player['x'], player['y'], size*0.6, size*0.6)
-    ctx.strokeStyle="black"
-    ctx.strokeRect(player['x'], player['y'], size*0.6, size*0.6)
 
-}
-
-function addblock(type,x,y) {
-    blocks[blocklevel].push({'type':type,'x':x,'y':y})
-}
-
-function addblocks(type,x1,y1,x2,y2) {
-    var i=x1*1
-    while (x2+1>i) {
-        var j=y1*1
-        while (y2+1>j) {
-            addblock(type,i,j)
-            j++
+    function movePlayer() {
+        var oldx=player['x'];
+        var oldy=player['y'];
+        if (rightMovement==1) {
+            player['x']+=speed;
         }
-        i++
+        if (leftMovement==1) {
+            player['x']-=speed;
+        }
+
+        collide(oldx,oldy);
+        var oldx=player['x'];
+        var oldy=player['y'];
+        if (upMovement==1) {
+            player['y']-=speed;
+        }
+        if (downMovement==1) {
+            player['y']+=speed;
+        }
+        collide(oldx,oldy);
     }
-}
 
-var blocks=[[],[],[],[],[],[],[]]
-var blocklevel = 1
-addblocks(1,0,0,14,0)
-addblocks(1,0,1,0,9)
-addblocks(1,1,9,18,9)
-addblocks(1,15,0,23,0)
-addblocks(1,23,1,23,9)
-addblocks(1,19,9,22,9)
+    function moveEnemies() {
+        var i=0;
+        while (enemies[level].length>i) {
+            enemies[level][i]['x']+=enemies[level][i]['xv'];
+           
+            if (collideWithEnemy(enemies[level][i])) {
+                enemies[level][i]['xv']=0-enemies[level][i]['xv'];
+                //enemies[level][i]['x']+=enemies[level][i]['xv']
+            }
+            if (enemies[level][i]['minx']>=enemies[level][i]['x']) {
+                enemies[level][i]['xv']=Math.abs(enemies[level][i]['xv']);
+            }
+            if (enemies[level][i]['x']>=enemies[level][i]['maxx']) {
+                enemies[level][i]['xv']=0-Math.abs(enemies[level][i]['xv']);
+            }
+           
+            enemies[level][i]['y']+=enemies[level][i]['yv'];
 
-addblocks(0,3,1,19,8)
+            if (collideWithEnemy(enemies[level][i]) || enemies[level][i]['miny']>=enemies[level][i]['y'] || enemies[level][i]['y']>=enemies[level][i]['maxy']) {
+                enemies[level][i]['yv']=0-enemies[level][i]['yv'];
+                //enemies[level][i]['y']+=enemies[level][i]['yv']
+            }
+            i++
+        }
+    }
 
-addblocks(2,1,1,3,8)
-addblocks(3,20,1,22,8)
+    function collide(x,y) {
+        var i=0;
+        var player_rect={x:player['x'],y:player['y'],width:size*0.6,height:size*0.6}
 
-var spawnpoints = [[0,0],[size*2,size*2],[size*2,size*4],[size*1.5,size*2.5],[0,0]]
-var player = {'x':spawnpoints[level][0],'y':spawnpoints[level][1]}
+        while (blocks[level].length>i) {
+            var blockBox={x:blocks[level][i]['x']*size,y:blocks[level][i]['y']*size,width:size,height:size}
 
-function addenemy() {
-}
+                if (colliding(player_rect,blockBox) && blocks[level][i]['type']===1) {
+                    player['x']=x;
+                    player['y']=y;
+            }
 
-function doStuff() {
-    draw()
-    movePlayer()
-}
+            if (colliding(player_rect,blockBox) && blocks[level][i]['type']===3 ) {
+                level+=1;
+                numcoins=0;
+                player['x']=spawnpoints[level][0];
+                player['y']=spawnpoints[level][1];
+            }
 
-setInterval(doStuff,10)
+            i++
+        }
+       
+    }
+
+    function collideWithEnemey(enemy){
+            var pos=0;
+            var enemyBox={x:enemy['x']*size,y:enemy['y']*size,width:size,height:size}
+
+            while (blocks[level].length>pos) {
+                var blockBox={x:blocks[level][pos]['x']*size,y:blocks[level][pos]['y']*size,width:size,height:size}
+
+            if (colliding(enemyBox,blockBox) && (blocks[level][pos]['type']===1 || blocks[level][pos]['type']===4)) {
+                return true;
+            }
+
+            pos++;
+
+        }
+
+        return false;
+
+    }
+
+    function colliding(rect1,rect2) {
+
+        if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y){
+            return true;
+        }
+        return false;
+
+    }
+
+
+    function draw() {
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, c.width, c.height);
+        var i=0;
+        while (blocks[level].length>i) {
+            var color='pink';
+
+            if (blocks[level][i]['type']===0) {
+                if (blocks[level][i]['x']%2===0 && blocks[level][i]['y']%2===0) {
+                    color='white';
+                }
+                if (blocks[level][i]['x']%2===0 && blocks[level][i]['y']%2===1) {
+                    color='lightgrey';
+                }
+                if (blocks[level][i]['x']%2===1 && blocks[level][i]['y']%2===0) {
+                    color='lightgrey';
+                }
+                if (blocks[level][i]['x']%2===1 && blocks[level][i]['y']%2===1) {
+                    color='white';
+                }
+            }
+
+            if (blocks[level][i]['type']===1) {
+                color='grey';
+            }
+            if (blocks[level][i]['type']===2) {
+                color='yellow';
+            }
+            if (blocks[level][i]['type']===3) {
+                color='lightgreen';
+            }
+            ctx.fillStyle = color+"";
+            if (!(blocks[level][i]['type']===4)) {
+                ctx.fillRect(blocks[level][i]['x']*size, blocks[level][i]['y']*size, size, size);
+            }
+            i++;
+        }
+        ctx.fillStyle = "purple";
+        ctx.fillRect(player['x'], player['y'], size*0.6, size*0.6);
+        ctx.strokeStyle="black";
+        ctx.strokeRect(player['x'], player['y'], size*0.6, size*0.6);
+        var i=0;
+
+        while (enemies[level].length>i) {
+            ctx.beginPath();
+            ctx.arc(enemies[level][i]['x']*size+size/2,enemies[level][i]['y']*size+size/2,(size*0.6)/2,0,2*Math.PI);
+            ctx.fillStyle = 'red';
+            ctx.strokeStyle = 'black';
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+            i++;
+        }
+
+    }
+
+    function addblock(type,x,y) {
+        blocks[blockLevel].push({'type':type,'x':x,'y':y});
+    }
+
+    function addblocks(type,x1,y1,x2,y2) {
+        var i=x1*1;
+
+        while (x2+1>i) {
+            var j=y1*1;
+
+            while (y2+1>j) {
+                addblock(type,i,j);
+                j++;
+            }
+            
+            i++;
+        }
+    }
+
+    var blocks=[[],[],[],[],[],[],[]];
+    var blockLevel = 1;
+    addblocks(1,0,0,14,0);
+    addblocks(1,0,1,0,9);
+    addblocks(1,1,9,18,9);
+    addblocks(1,15,0,23,0);
+    addblocks(1,23,1,23,9);
+    addblocks(1,19,9,22,9);
+
+    addblocks(0,3,1,19,8);
+
+    addblocks(2,1,1,3,8);
+    addblocks(3,20,1,22,8);
+
+    var enemies = [[],[],[],[],[],[],[],[]];
+    var enemylevel = 1;
+    addenemy(4,1,1,-2);
+    addenemy(5,8,1,-2);
+    addenemy(6,1,2,0);
+    addenemy(7,8,-2,0);
+    addenemy(8,1,1,-2);
+    addenemy(9,8,-2,0);
+    addenemy(10,1,2,0);
+    addenemy(11,8,-2,0);
+    addenemy(12,1,1,-2)
+    addenemy(13,8,-2,0);
+    addenemy(14,1,2,0);
+    addenemy(15,8,-2,0);
+    addenemy(16,1,1,-2);
+    addenemy(17,8,-2,0);
+    addenemy(18,1,2,0);
+    addenemy(19,8,-2,0);
+
+    var spawnpoints = [[0,0],[size*2,size*2],[size*2,size*4],[size*1.5,size*2.5],[0,0]];
+    var player = {'x':spawnpoints[level][0],'y':spawnpoints[level][1]};
+
+    function addenemy(x,y,xv,yv,minx=0,maxx=100,miny=0,maxy=100) {
+        enemies[enemylevel].push({'x':x,'y':y,'xv':xv/size,'yv':yv/size,'minx':minx,'maxx':maxx,'miny':miny,'maxy':maxy});
+    }
+
+    function doStuff() {
+        draw();
+        movePlayer();
+        moveEnemies();
+    }
+
+    setInterval(doStuff,10);
+
 </script>
