@@ -46,7 +46,7 @@
 
     var blocks=[[],[],[],[],[],[],[]];
 
-    var blockLevel = 1;
+    var blockLevel = 3;
     addblocks(1,0,0,14,0);
     addblocks(1,0,1,0,9);
     addblocks(1,1,9,18,9);
@@ -84,7 +84,7 @@
 
     addblocks(2,1,3,4,7);
     addblocks(3,20,5,23,7);
-    var blockLevel = 3;
+    var blockLevel = 1;
     addblocks(1,0,1,3,1);
     addblocks(1,0,2,0,12);
     addblocks(1,0,12,3,12);
@@ -129,7 +129,7 @@
     }
 
     var enemies = [[],[],[],[],[],[],[],[]];
-    var levelE = 1;
+    var levelE = 3;
     addenemy(4,1,0,-2);
     addenemy(5,8,0,2);
     addenemy(6,1,0,-2);
@@ -166,7 +166,7 @@
     addenemy(15,10,0,.35);
     addenemy(17,11,0,-.35);
 
-    var levelE = 3;
+    var levelE = 1;
     addenemy(4,1,0,-2);
     addenemy(5,14,0,-2);
 
@@ -259,42 +259,42 @@
     }
 
     function moveEnemies() {
-        var i=0
-        while (enemies[level].length>i) {
-            enemies[level][i]['x']+=enemies[level][i]['xv'];
+        var pos=0;
+        while (enemies[level].length>pos) {
+            enemies[level][pos]['x']+=enemies[level][pos]['xv'];
 
-            if (collideEnemy(enemies[level][i])) {
-                enemies[level][i]['xv']=0-enemies[level][i]['xv'];
+            if (collideEnemy(enemies[level][pos])) {
+                enemies[level][pos]['xv']=0-enemies[level][pos]['xv'];
             }
-            if (enemies[level][i]['minx']>=enemies[level][i]['x']) {
-                enemies[level][i]['xv']=Math.abs(enemies[level][i]['xv']);
+            if (enemies[level][pos]['minx']>=enemies[level][pos]['x']) {
+                enemies[level][pos]['xv']=Math.abs(enemies[level][pos]['xv']);
             }
-            if (enemies[level][i]['x']>=enemies[level][i]['maxx']) {
-                enemies[level][i]['xv']=0-Math.abs(enemies[level][i]['xv']);
+            if (enemies[level][pos]['x']>=enemies[level][pos]['maxx']) {
+                enemies[level][pos]['xv']=0-Math.abs(enemies[level][pos]['xv']);
             }
 
-            enemies[level][i]['y']+=enemies[level][i]['yv'];
+            enemies[level][pos]['y']+=enemies[level][pos]['yv'];
 
-            if (collideEnemy(enemies[level][i]) || enemies[level][i]['miny']>=enemies[level][i]['y'] || enemies[level][i]['y']>=enemies[level][i]['maxy']) {
-                enemies[level][i]['yv']=0-enemies[level][i]['yv'];
+            if (collideEnemy(enemies[level][pos]) || enemies[level][pos]['miny']>=enemies[level][pos]['y'] || enemies[level][pos]['y']>=enemies[level][pos]['maxy']) {
+                enemies[level][pos]['yv']=0-enemies[level][pos]['yv'];
             }
-            i++
+            pos++
         }
     }
 
     function collide(x,y) {
-        var i=0;
+        var pos=0;
         var player_rect={x:player['x'],y:player['y'],width:size*0.6,height:size*0.6};
 
-        while (blocks[level].length>i) {
-            var block_rect={x:blocks[level][i]['x']*size,y:blocks[level][i]['y']*size,width:size,height:size};
+        while (blocks[level].length>pos) {
+            var block_rect={x:blocks[level][pos]['x']*size,y:blocks[level][pos]['y']*size,width:size,height:size};
 
-                if (colliding(player_rect,block_rect) && blocks[level][i]['type']===1) {
+                if (colliding(player_rect,block_rect) && blocks[level][pos]['type']===1) {
                 player['x']=x;
                 player['y']=y;
             }
 
-            if (colliding(player_rect,block_rect) && blocks[level][i]['type']===3) {
+            if (colliding(player_rect,block_rect) && blocks[level][pos]['type']===3) {
                 level+=1;
                 numcoins=0;
                 player['x']=spawnpoints[level][0];
@@ -302,12 +302,12 @@
             }
 
 
-            i++
+            pos++;
         }
 
-        i=0
-        while (enemies[level].length>i) {
-            enemy=enemies[level][i]
+        pos=0;
+        while (enemies[level].length>pos) {
+            enemy=enemies[level][pos]
             var enemy_rect={x:enemy['x']*size+(size*0.2),y:enemy['y']*size+(size*0.2),width:size*0.6,height:size*0.6}
 
             if (colliding(player_rect,enemy_rect)) {
@@ -315,40 +315,28 @@
                 player['y']=spawnpoints[level][1];
                 deaths+=1;
                 numcoins=0;
-                j=0;
+                pos1=0;
 
-                while (coins[level].length>j) {
-                    coins[level][j]['collected']=0;
-                    j++;
+                while (coins[level].length>pos1) {
+                    coins[level][pos1]['collected']=0;
+                    pos1++;
                 }
 
             }
-        i++
+        pos++;
         }
 
-        i=0
-        while (coins[level].length>i) {
-            coin=coins[level][i]
-            var coin_rect={x:coin['x']*size+(size*0.25),y:coin['y']*size+(size*0.25),width:size*0.5,height:size*0.5}
-
-            if (colliding(player_rect,coin_rect) && coin['collected']===0) {
-                coin['collected']=1
-                numcoins+=1
-            }
-
-        i++
-        }
     }
 
     function collideEnemy(enemy) {
-        var i=0;
+        var pos=0;
         var enemy_rect={x:enemy['x']*size,y:enemy['y']*size,width:size,height:size}
-        while (blocks[level].length>i) {
-            var block_rect={x:blocks[level][i]['x']*size,y:blocks[level][i]['y']*size,width:size,height:size}
-            if (colliding(enemy_rect,block_rect) && (blocks[level][i]['type']===1 || blocks[level][i]['type']===4)) {
+        while (blocks[level].length>pos) {
+            var block_rect={x:blocks[level][pos]['x']*size,y:blocks[level][pos]['y']*size,width:size,height:size}
+            if (colliding(enemy_rect,block_rect) && (blocks[level][pos]['type']===1 || blocks[level][pos]['type']===4)) {
                 return true;
             }
-            i++;
+            pos++;
         }
         return false;
     }
@@ -401,19 +389,20 @@
         context.fillRect(player['x'], player['y'], size*0.6, size*0.6);
         context.strokeStyle="black";
         context.strokeRect(player['x'], player['y'], size*0.6, size*0.6);
-        var i=0;
+       
+        var pos=0;
 
-        while (enemies[level].length>i) {
+        while (enemies[level].length>pos) {
             context.beginPath();
-            context.arc(enemies[level][i]['x']*size+size/2,enemies[level][i]['y']*size+size/2,(size*0.6)/2,0,2*Math.PI);
+            context.arc(enemies[level][pos]['x']*size+size/2,enemies[level][pos]['y']*size+size/2,(size*0.6)/2,0,2*Math.PI);
             context.fillStyle = 'red';
             context.strokeStyle = 'black';
             context.fill();
             context.stroke();
             context.closePath();
-            i++;
+            pos++;
         }
-        var i=0;
+        var pos=0;
 
     }
 
@@ -422,7 +411,6 @@
     var player = {'x':spawnpoints[level][0],'y':spawnpoints[level][1]};
   
     function addcoin(x,y) {
-        coins[coinlevel].push({'x':x,'y':y,'collected':0});
     }
 
     var coins = [[],[],[],[],[],[],[]];
