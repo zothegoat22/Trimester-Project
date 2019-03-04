@@ -46,7 +46,7 @@
 
     var blocks=[[],[],[],[],[],[],[]];
 
-    var blockLevel = 3
+    var blockLevel = 3;
     addblocks(1,0,0,14,0);
     addblocks(1,0,1,0,9);
     addblocks(1,1,9,18,9);
@@ -84,12 +84,12 @@
 
     addblocks(2,1,3,4,7);
     addblocks(3,20,5,23,7);
-    var blockLevel = 1
-    addblocks(1,0,3,3,3);
-    addblocks(1,0,3,0,12);
+    var blockLevel = 1;
+    addblocks(1,0,1,3,1);
+    addblocks(1,0,2,0,12);
     addblocks(1,0,12,3,12);
     addblocks(1,3,0,21,0);
-    addblocks(1,3,0,3,3);
+    addblocks(1,3,0,1,3);
     addblocks(1,3,12,3,15);
     addblocks(1,3,15,21,15);
 
@@ -97,7 +97,7 @@
     addblocks(1,8,9,9,11);
 
     addblocks(1,16,4,17,6);
-    addblocks(1,16,8,17,11);
+    addblocks(1,16,9,17,11);
 
     addblocks(1,12,7,13,8);
 
@@ -105,9 +105,8 @@
     addblocks(1,21,9,21,14);
     addblocks(1,21,6,24,6)
 
-     addblocks(1,21,9,24,9)
-     addblocks(1,24,7,24,9)
-   
+    addblocks(1,21,9,24,9)
+    addblocks(1,24,7,24,9)
 
     addblocks(0,4,1,7,14);
     addblocks(0,8,1,9,3);
@@ -122,7 +121,7 @@
     addblocks(0,8,7,9,8);
     addblocks(0,16,7,17,8);
 
-    addblocks(2,1,4,3,11);
+    addblocks(2,1,2,3,11);
     addblocks(3,21,7,23,8);
 
     function addenemy(x,y,xv,yv,minx=0,maxx=100,miny=0,maxy=100) {
@@ -168,6 +167,42 @@
     addenemy(17,11,0,-.3);
 
     var levelE = 1;
+    addenemy(4,1,0,-2);
+    addenemy(5,14,0,-2);
+
+    addenemy(1,8,2,0);
+    addenemy(11,7,-2,0);
+
+    addenemy(8,1,0,1);
+    addenemy(9,3,0,-1);
+
+    addenemy(8,12,0,1);
+    addenemy(9,14,0,-1);
+
+    addenemy(12,6,0,-2);
+    addenemy(13,1,0,2);
+
+    addenemy(12,14,0,2);
+    addenemy(13,9,0,-2);
+
+    addenemy(15,10,-2,0);
+    addenemy(10,5,2,0);
+
+    addenemy(16,3,0,-1);
+    addenemy(17,1,0,1);
+
+    addenemy(16,12,0,-1);
+    addenemy(17,14,0,1);
+
+    addenemy(18,10,1,0);
+    addenemy(20,11,-1,0);
+
+    addenemy(18,4,1,0);
+    addenemy(20,5,-1,0);
+
+    addenemy(14,7,2,0)
+    addenemy(23,8,-2,0)
+
 
     function movement(xMove) {
         if(xMove.keyCode == 68){
