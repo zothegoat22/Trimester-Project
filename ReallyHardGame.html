@@ -17,6 +17,8 @@
     var downMovement=0;   
     document.addEventListener("keydown", movement, false);
     document.addEventListener("keyup", stayStill, false);
+    var audio = new Audio('audio_file.mp3');
+    audio.play();
 
 
     function addblock(type,x,y) {
@@ -361,12 +363,15 @@
                     color='white';
                 }
             }
+            //borders
             if (blocks[level][pos]['type']===1) {
                 color='grey';
             }
+            //start
             if (blocks[level][pos]['type']===2) {
                 color='yellow';
             }
+            //finish
             if (blocks[level][pos]['type']===3) {
                 color='lightgreen';
              }
